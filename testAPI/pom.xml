@@ -3,7 +3,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.bonotaSoft.testAPI</groupId>
+    <groupId>com.bonitaSoft.testAPI</groupId>
     <artifactId>testAPI</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -41,15 +41,22 @@
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet-core</artifactId>
-            <!-- use the following artifactId if you don't need servlet 2.x compatibility -->
-            <!-- artifactId>jersey-container-servlet</artifactId -->
         </dependency>
+        
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-processing</artifactId>
             <version>2.12</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20140107</version>
+        </dependency>
+        
     </dependencies>
+    
     <properties>
         <jersey.version>2.12</jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
