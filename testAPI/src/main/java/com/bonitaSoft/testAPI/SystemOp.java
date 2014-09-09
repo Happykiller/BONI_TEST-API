@@ -16,35 +16,34 @@ import javax.ws.rs.core.UriInfo;
 
 import org.json.JSONObject;
 
-import com.bonitaSoft.business.TestImpl;
-import com.bonitaSoft.tools.LocalStorage;
+import com.bonitaSoft.business.SystemOpImpl;
 import com.bonitaSoft.tools.ReturnObject;
 import com.bonitaSoft.tools.Tools;
 
-
 /**
  * Root resource (exposed at "test" path)
+ * testAPI/webapi/systemop/login.php?log=walter.bates&pass=bpm
  */
-@Path("/test")
-public class Test {
+@Path("/systemop")
+public class SystemOp {
 	Tools myTools = new Tools();
-	TestImpl myTestImpl = new TestImpl();
+	SystemOpImpl mySystemOpImpl = new SystemOpImpl();
 	
 	@Context ServletContext context;
 	
 	Boolean debug = true;
 	
-	Boolean publicI = false;
+	Boolean publicI = true;
 	
     @GET
-    @Path("/unTest.php")
+    @Path("/login.php")
     @Produces(MediaType.TEXT_PLAIN)
     public String testGet(@Context UriInfo uriInfo) {
         return execTest(uriInfo);
     }
 
 	@POST
-	@Path("/unTest.php")
+	@Path("/login.php")
     @Produces(MediaType.TEXT_PLAIN)
     public String testPost(@Context UriInfo uriInfo) {
     	return execTest(uriInfo);
@@ -53,28 +52,25 @@ public class Test {
     public String execTest(UriInfo uriInfo) {
     	JSONObject returnJSONObject = new JSONObject();
     	try{
-    		LocalStorage localStorage = (LocalStorage) context.getAttribute("localStorage");
-    		myTools.traceLog("list : " + localStorage.getStorage("hello"));
-    		
     		//def
     		List<Object> inputsDef = new ArrayList<Object>();
 	    	ReturnObject myJSONObject = new ReturnObject();
     	    
-	    	//input 'name'
-	    	Map<String, Object> name = new HashMap<String, Object>();
-	    	name.put("label", "name");
-	    	name.put("type", String.class);
-	    	name.put("default", null);
+	    	//input 'log'
+	    	Map<String, Object> log = new HashMap<String, Object>();
+	    	log.put("label", "log");
+	    	log.put("type", String.class);
+	    	log.put("default", null);
 	    	
-	    	inputsDef.add(name);
+	    	inputsDef.add(log);
 	    	
-	    	//input 'lab'
-	    	Map<String, Object> lab = new HashMap<String, Object>();
-	    	lab.put("label", "lab");
-	    	lab.put("type", Integer.class);
-	    	lab.put("default", 1);
+	    	//input 'pass'
+	    	Map<String, Object> pass = new HashMap<String, Object>();
+	    	pass.put("label", "pass");
+	    	pass.put("type", String.class);
+	    	pass.put("default", null);
 	    	
-	    	inputsDef.add(lab);
+	    	inputsDef.add(pass);
     		
 	    	//check input
 	    	HashMap<String, Object> inputs = myTools.checkInput(uriInfo, inputsDef, publicI, debug);
@@ -82,7 +78,7 @@ public class Test {
 	    	if(inputs.get("crtInputs") == null) {
 	    		//------------------------------------------------
 	    		//custom part
-	    		myTestImpl.getBusiness(myJSONObject, inputs);
+	    		mySystemOpImpl.getBusiness(myJSONObject, inputs, context);
 	    		//------------------------------------------------
 	    	}else{
 	    		myJSONObject.setStrErreur((String) inputs.get("crtInputs"));
